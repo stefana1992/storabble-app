@@ -1,0 +1,23 @@
+{
+  "name": "storabble-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stefana1992/storabble-app.git"
+  },
+  "keywords": [],
+  "author": "Stefana Tomić",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/stefana1992/storabble-app/issues"
+  },
+  "homepage": "https://github.com/stefana1992/storabble-app#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.30"
+  }
+}
