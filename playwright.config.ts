@@ -1,5 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-
+import * as os from "node:os";
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -15,7 +15,7 @@ export default defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
-   /* Maximum time one test can run for. */
+  /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
     /**
@@ -31,32 +31,57 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  //reporter: 'html',
+  reporter: [['list', { printSteps: true }],
+  ['html', { open: 'never' }],
+  ['allure-playwright', {
+    detail: true,
+    outputFolder: "allure-results",
+    suiteTitle: true,
+    environmentInfo: {
+      os_platform: os.platform(),
+      os_release: os.release(),
+      os_version: os.version(),
+      node_version: process.version,
+    },
+  }],
+  ['line'],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-     baseURL: 'https://st.storabble.etondigital.com/en/login',
+    baseURL: 'https://st.storabble.etondigital.com',
 
+    httpCredentials: {
+      username: 'storabble',
+      password: 'ed2023',
+    },
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
 
   /* Configure projects for major browsers */
   projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
+    // {
+    //   name: 'develop',
+    //   use: {
+    //     baseURL: 'https://st.storabble.etondigital.com/en/login',
+    //   },
+    // },
+    // {
+    //   name: 'chromium',
+    //   use: { ...devices['Desktop Chrome'] },
+    // },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
     // {
@@ -77,6 +102,14 @@ export default defineConfig({
     //   name: 'Google Chrome',
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
+
+    {
+      name: 'Google Chrome',
+      use: {
+        channel: 'chrome',
+        screenshot: 'only-on-failure',
+      },
+    },
   ],
 
   /* Run your local dev server before starting the tests */

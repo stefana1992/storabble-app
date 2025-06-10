@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test --workers=1 --reporter=list,allure-playwright && allure generate ./allure-results --clean && allure open ./allure-report",
+    "test:headed": "npx playwright test --headed --workers=1 --reporter=list,allure-playwright && allure generate ./allure-results --clean && allure open ./allure-report",
+    "test:allure-generate": "allure generate ./allure-results --clean",
+    "test:allure-run": "allure open ./allure-report"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stefana1992/storabble-app.git"
@@ -18,6 +23,7 @@
   "homepage": "https://github.com/stefana1992/storabble-app#readme",
   "devDependencies": {
     "@playwright/test": "^1.52.0",
-    "@types/node": "^22.15.30"
+    "@types/node": "^22.15.30",
+    "allure-playwright": "^3.2.2"
   }
 }
