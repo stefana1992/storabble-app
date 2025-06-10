@@ -16,8 +16,8 @@ export class LoginPage {
         this.passwordInput = this.page.locator("#password");
         this.loginButton = this.page.locator("//button[@type='submit']");
         this.cookieButton = this.page.locator("//button[normalize-space()='Ok']");
-        this.emailErrorMessage = this.page.locator("//span[contains(@class, 'invalid-msg')][1]");
-        this.passwordErrorMessage = this.page.locator("//span[contains(@class, 'invalid-msg')][2]");
+        this.emailErrorMessage = this.page.locator('//input[@id="email"]/ancestor::div[contains(@class, "c-input-field")]/following-sibling::span[@class="invalid-msg"][1]');
+        this.passwordErrorMessage = this.page.locator('//span[@class="eye-icon-closed"]//parent::div//following-sibling::span[@class="invalid-msg"]');
     }
 
     async navigateTo() {
