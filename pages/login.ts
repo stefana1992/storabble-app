@@ -9,6 +9,8 @@ export class LoginPage {
     private cookieButton: Locator;
     private emailErrorMessage: Locator;
     private passwordErrorMessage: Locator;
+    private forgotPasswordLink: Locator;
+    private resetPasswordButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -18,6 +20,8 @@ export class LoginPage {
         this.cookieButton = this.page.locator("//button[normalize-space()='Ok']");
         this.emailErrorMessage = this.page.locator('//input[@id="email"]/ancestor::div[contains(@class, "c-input-field")]/following-sibling::span[@class="invalid-msg"][1]');
         this.passwordErrorMessage = this.page.locator('//span[@class="eye-icon-closed"]//parent::div//following-sibling::span[@class="invalid-msg"]');
+        this.forgotPasswordLink = this.page.locator('.c-sign-in__form--reset-pass.link-underline-blue');
+        this.resetPasswordButton = this.page.locator("//button[@type='submit']");
     }
 
     async navigateTo() {
@@ -53,5 +57,19 @@ export class LoginPage {
     async verifyPasswordErrorMessageVisibility(expectedPasswordMessage: string) {
         await expect(this.passwordErrorMessage).toBeVisible();
         await expect(this.passwordErrorMessage).toHaveText(expectedPasswordMessage);
+    }
+
+    async verifyRedirectedToMyStorageListingsPage() {
+        await expect(this.page).toHaveURL(/\/en\/listings(\/|\?|$)/);
+    }
+
+    async navigateToForgotPasswordPage() {
+        // Click on the "Forgot your password?" link
+        await this.forgotPasswordLink.click();
+    }
+
+    async verifyResetPasswordButtonVisibility() {
+        // Verify that the Reset Password button is visible
+        await expect(this.resetPasswordButton).toBeVisible();
     }
 }

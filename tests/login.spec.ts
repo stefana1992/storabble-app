@@ -54,5 +54,30 @@ test.describe('Negative test cases for login', () => {
         await loginPage.clickLogin();
         await loginPage.verifyLoginErrorMessages(loginForm.errorMessages.emptyEmailOrPassword, loginForm.errorMessages.emptyEmailOrPassword);
     });
+});
 
+test.describe('Positive Test Cases for Login', () => {
+       let loginPage: LoginPage;
+
+    test.beforeEach(async ({ page }) => {
+        loginPage = new LoginPage(page);
+        await loginPage.navigateTo();
+        await loginPage.acceptCookie();
+    });
+
+    // Test 1: Valid credentials (correct email and password)
+    test('User should be able to log in with valid credentials', async () => {
+        await loginPage.fillEmail(loginForm.validCredentials.email);
+        await loginPage.fillPassword(loginForm.validCredentials.password);
+        await loginPage.clickLogin();
+
+        //Expect the My Storabble listings page to be visible after a successful login
+        await loginPage.verifyRedirectedToMyStorageListingsPage();
+    });
+
+    // Test 2: Verify that user can access the forgot password page
+    test('User should be able to access the forgot password page', async()=>{
+        await loginPage.navigateToForgotPasswordPage();
+        await loginPage.verifyResetPasswordButtonVisibility(); 
+    });
 });
